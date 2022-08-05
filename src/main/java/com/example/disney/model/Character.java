@@ -6,6 +6,9 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,7 +24,9 @@ public class Character {
     private Integer age;
     private Float weight;
     private String story;
-    // Movies->
+    // Movies
+    @ManyToMany(mappedBy = "characters")
+    private Set<Movie> movies = new HashSet<>();
 
 
 }
