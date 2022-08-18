@@ -24,7 +24,7 @@ public class CharacterController {
     // /**
     // * @Return Response Entire Character Entity with Movies
     // */
-    @GetMapping("/detailed/{id}") // All characters with details
+    @GetMapping("/{id}") // All characters with details
     public ResponseEntity<CharacterResponseDto> getAllDetail(@PathVariable Integer id) {
         CharacterResponseDto characterResponseDto = characterService.getDetailCharacter(id);
         return ResponseEntity.ok().body(characterResponseDto);
@@ -47,11 +47,11 @@ public class CharacterController {
     // /**
     // * @Return Response Character Basic Entity (name and image)
     // */
-    @GetMapping("/all")
-    public ResponseEntity<List<CharacterBasicResponseDto>> getAll() {
-        List<CharacterBasicResponseDto> characterBasicResponseDtos = characterService.getAllBasic();
-        return ResponseEntity.ok().body(characterBasicResponseDtos);
-    }
+//    @GetMapping("/all")
+//    public ResponseEntity<List<CharacterBasicResponseDto>> getAll() {
+//        List<CharacterBasicResponseDto> characterBasicResponseDtos = characterService.getAllBasic();
+//        return ResponseEntity.ok().body(characterBasicResponseDtos);
+//    }
 
     // /**
     // * @Return Response Character Entity with Movies
@@ -66,7 +66,7 @@ public class CharacterController {
     // * @Return Response Character Entity with Movies
     // */
     @PutMapping("/{id}")
-    public ResponseEntity<CharacterResponseDto> update(@PathVariable Integer id, @RequestBody CharacterRequestDto characterRequestDto) {
+    public ResponseEntity<CharacterResponseDto> update(@PathVariable Integer id,@Valid @RequestBody CharacterRequestDto characterRequestDto) {
         CharacterResponseDto characterUpdate = characterService.updateCharacter(id, characterRequestDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(characterUpdate);
     }

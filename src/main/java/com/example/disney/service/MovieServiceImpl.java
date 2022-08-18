@@ -3,16 +3,14 @@ package com.example.disney.service;
 import com.example.disney.dto.MovieFiltersDto;
 import com.example.disney.dto.request.CharacterRequestDto;
 import com.example.disney.dto.request.MovieRequestDto;
-import com.example.disney.dto.response.CharacterResponseDto;
 import com.example.disney.dto.response.MovieBasicResponseDto;
 import com.example.disney.dto.response.MovieResponseDto;
 import com.example.disney.entity.Character;
 import com.example.disney.entity.Movie;
 import com.example.disney.exception.ParamNotFound;
-import com.example.disney.mapper.CharacterMapper;
 import com.example.disney.mapper.MovieMapper;
 import com.example.disney.repository.MovieRepository;
-import com.example.disney.service.specifications.MovieSpecification;
+import com.example.disney.repository.specifications.MovieSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +39,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieResponseDto getDetailMovie(Integer id) {
         Optional<Movie> movie = movieRepository.findById(id);
-        if (!movie.isPresent()) { // Otra manera
-            throw new ParamNotFound("Error: Invalid movie id");
+        if (!movie.isPresent()) {
+            throw new ParamNotFound("ERROR: Invalid movie ID");
         }
         return MovieMapper.movieToMovieResponseDto(movie.get());
     }
@@ -86,7 +84,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieResponseDto updateMovie(Integer id, MovieRequestDto movieRequestDto) {
-        Movie movie = movieRepository.findById(id).get();
+        Optional<Movie> movieOptional = movieRepository.findById(id);
+        if(!movieOptional.isPresent()) {
+            throw new ParamNotFound("ERROR: Invalid movie ID");
+        }
+        Movie movie = movieOptional.get();
         movie.setImage(movieRequestDto.getImage());
         movie.setTitle(movieRequestDto.getTitle());
         movie.setDate_created(LocalDate.parse(movieRequestDto.getDate_created(), formatter));
@@ -99,8 +101,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieResponseDto deleteMovie(Integer id) {
         Optional<Movie> movie = movieRepository.findById(id);
-        if (!movie.isPresent()) { // Otra manera
-            throw new ParamNotFound("Error: Invalid movie id");
+        if (!movie.isPresent()) {
+            throw new ParamNotFound("ERROR: Invalid movie ID");
         }
         movieRepository.delete(movie.get());
         return MovieMapper.movieToMovieResponseDto(movie.get());

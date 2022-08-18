@@ -43,7 +43,7 @@ public class MovieController {
     // /**
     // * @Return Response Entire Movie Entity with Characters
     // */
-    @GetMapping("/detailed/{id}") // All characters with details
+    @GetMapping("/{id}") // All characters with details
     public ResponseEntity<MovieResponseDto> getAllDetail(@PathVariable Integer id) {
         MovieResponseDto movie = movieService.getDetailMovie(id);
         return ResponseEntity.ok().body(movie);
@@ -52,11 +52,11 @@ public class MovieController {
     // /**
     // * @Return Response All Movies Entity with Characters
     // */
-    @GetMapping("/all") // todo Ignore Testing/Debugging Basic response dto
-    public ResponseEntity<List<MovieBasicResponseDto>> getAll() {
-        List<MovieBasicResponseDto> movieBasicResponseDtos = movieService.getAllBasic();
-        return ResponseEntity.ok().body(movieBasicResponseDtos);
-    }
+//    @GetMapping("/all") // todo Ignore Testing/Debugging Basic response dto
+//    public ResponseEntity<List<MovieBasicResponseDto>> getAll() {
+//        List<MovieBasicResponseDto> movieBasicResponseDtos = movieService.getAllBasic();
+//        return ResponseEntity.ok().body(movieBasicResponseDtos);
+//    }
 
     // /**
     // * @Return Response Entire Movie Entity with Characters
@@ -71,7 +71,7 @@ public class MovieController {
     // * @Return Response Entire Movie Entity with Characters
     // */
     @PutMapping("/{id}")
-    public ResponseEntity<MovieResponseDto> updateMovie(@PathVariable Integer id, @RequestBody MovieRequestDto movieRequestDto) {
+    public ResponseEntity<MovieResponseDto> updateMovie(@PathVariable Integer id, @Valid @RequestBody MovieRequestDto movieRequestDto) {
         MovieResponseDto movieResponseDto = movieService.updateMovie(id, movieRequestDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(movieResponseDto);
     }

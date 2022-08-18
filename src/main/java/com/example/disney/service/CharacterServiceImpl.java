@@ -8,7 +8,7 @@ import com.example.disney.exception.ParamNotFound;
 import com.example.disney.mapper.CharacterMapper;
 import com.example.disney.entity.Character;
 import com.example.disney.repository.CharacterRepository;
-import com.example.disney.service.specifications.CharacterSpecification;
+import com.example.disney.repository.specifications.CharacterSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,7 @@ public class CharacterServiceImpl implements CharacterService {
     public CharacterResponseDto getDetailCharacter(Integer id) {
         Optional<Character> character = characterRepository.findById(id);
         if (!character.isPresent()) { // Otra manera
-            throw new ParamNotFound("Error: Invalid character id");
+            throw new ParamNotFound("ERROR: Invalid character ID");
         }
         return CharacterMapper.characterToCharacterResponseDto(character.get());
     }
@@ -63,7 +63,11 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public CharacterResponseDto updateCharacter(Integer id, CharacterRequestDto characterRequestDto) {
-        Character character = characterRepository.findById(id).get();
+        Optional<Character> characterOptional = characterRepository.findById(id);
+        if (!characterOptional.isPresent()) { // Otra manera
+            throw new ParamNotFound("ERROR: Invalid character ID");
+        }
+        Character character = characterOptional.get();
         character.setImage(characterRequestDto.getImage());
         character.setName(characterRequestDto.getName());
         character.setAge(characterRequestDto.getAge());
@@ -78,7 +82,7 @@ public class CharacterServiceImpl implements CharacterService {
         //Character character = characterRepository.findById(id).get();
         Optional<Character> character = characterRepository.findById(id);
         if (!character.isPresent()) { // Otra manera
-            throw new ParamNotFound("Error: Invalid character id");
+            throw new ParamNotFound("ERROR: Invalid character ID");
         }
         characterRepository.delete(character.get());
         return CharacterMapper.characterToCharacterResponseDto(character.get());
