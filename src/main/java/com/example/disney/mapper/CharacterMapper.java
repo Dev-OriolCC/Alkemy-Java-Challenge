@@ -4,11 +4,17 @@ import com.example.disney.dto.request.CharacterRequestDto;
 import com.example.disney.dto.response.CharacterBasicResponseDto;
 import com.example.disney.dto.response.CharacterResponseDto;
 import com.example.disney.entity.Character;
+import com.example.disney.entity.Movie;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class CharacterMapper {
+
+    @Autowired CharacterMapper characterMapper;
 
     // Entity -> DTO
     public static CharacterResponseDto characterToCharacterResponseDto(Character character) {
@@ -34,14 +40,26 @@ public class CharacterMapper {
     }
 
     // DTO -> Entity
-    public static Character characterRequestDtoToCharacter(CharacterRequestDto characterRequestDto) {
+    public static Character characterRequestDtoToCharacter(CharacterRequestDto characterRequestDto){//, boolean showMovies) {
         Character character = new Character();
         character.setImage(characterRequestDto.getImage());
         character.setName(characterRequestDto.getName());
         character.setAge(characterRequestDto.getAge());
         character.setWeight(characterRequestDto.getWeight());
         character.setStory(characterRequestDto.getStory());
+//        if (showMovies) {
+//            List<Movie> movies = MovieMapper.movieRequestDtoToMovies(characterRequestDto.getMovies());
+//        }
         return character;
+    }
+
+    // List<DTO> -> List<Entity>
+    public static List<Character> characterRequestDtoToCharacters(List<CharacterRequestDto> characterRequestDtos) {
+        List<Character> characters = new ArrayList<>();
+        for (CharacterRequestDto characterRequestDto: characterRequestDtos) {
+            characters.add(characterRequestDtoToCharacter(characterRequestDto));
+        }
+        return characters;
     }
 
     //  Entity -> DTO -- Basic (id, image, name)
@@ -61,4 +79,13 @@ public class CharacterMapper {
         }
         return characterBasicResponseDtos;
     }
+
+    public static void characterRefresh(Character character, CharacterRequestDto characterRequestDto) {
+        character.setImage(characterRequestDto.getImage());
+        character.setName(characterRequestDto.getName());
+        character.setAge(characterRequestDto.getAge());
+        character.setWeight(characterRequestDto.getWeight());
+        character.setStory(characterRequestDto.getStory());
+    }
+
 }
