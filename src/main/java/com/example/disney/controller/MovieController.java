@@ -50,15 +50,6 @@ public class MovieController {
     } // todo pending test to verify
 
     // /**
-    // * @Return Response All Movies Entity with Characters
-    // */
-//    @GetMapping("/all") // todo Ignore Testing/Debugging Basic response dto
-//    public ResponseEntity<List<MovieBasicResponseDto>> getAll() {
-//        List<MovieBasicResponseDto> movieBasicResponseDtos = movieService.getAllBasic();
-//        return ResponseEntity.ok().body(movieBasicResponseDtos);
-//    }
-
-    // /**
     // * @Return Response Entire Movie Entity with Characters
     // */
     @PostMapping

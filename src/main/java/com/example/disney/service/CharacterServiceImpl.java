@@ -39,14 +39,17 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public CharacterResponseDto createCharacter(CharacterRequestDto characterRequestDto) {
-        Character character = new Character();
-        character.setImage(characterRequestDto.getImage());
-        character.setName(characterRequestDto.getName());
-        character.setAge(characterRequestDto.getAge());
-        character.setWeight(characterRequestDto.getWeight());
-        character.setStory(characterRequestDto.getStory());
-        characterRepository.save(character);
-        return CharacterMapper.characterToCharacterResponseDto(character);
+        Character character = CharacterMapper.characterRequestDtoToCharacter(characterRequestDto);
+        Character characterSaved = characterRepository.save(character);
+        CharacterResponseDto characterResponseDto = CharacterMapper.characterToCharacterResponseDto(characterSaved);
+//        Character character = new Character();
+//        character.setImage(characterRequestDto.getImage());
+//        character.setName(characterRequestDto.getName());
+//        character.setAge(characterRequestDto.getAge());
+//        character.setWeight(characterRequestDto.getWeight());
+//        character.setStory(characterRequestDto.getStory());
+        return characterResponseDto;
+
     }
 
     @Override
