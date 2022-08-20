@@ -1,15 +1,12 @@
 package com.example.disney.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @Getter
@@ -28,11 +25,5 @@ public class Genre {
 
     private boolean deleted = Boolean.FALSE;
 
-    // Movies ->
-    //@OneToMany(mappedBy = "genre", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-
-//    @OneToMany(mappedBy = "genre")
-//    @JsonIgnore
-//    private List<Movie> movies = new ArrayList<>();
 
 }

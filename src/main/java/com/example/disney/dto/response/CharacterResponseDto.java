@@ -18,5 +18,5 @@ public class CharacterResponseDto {
     private String story;
     private Boolean deleted;
     //
-    private List<Movie> movies;
+    private List<MovieResponseDto> movies;
 }

@@ -19,7 +19,7 @@ public class MovieResponseDto {
     private Integer rating;
     private Boolean deleted;
     //
-    private List<Character> characters;
+    private List<CharacterResponseDto> characters;
 
 
 }

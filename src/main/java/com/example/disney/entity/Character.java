@@ -7,13 +7,10 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
-//@Entity(name = "\"character\"")
 @Entity()
 @Table(name = "charac")
 @SQLDelete(sql = "UPDATE charac SET deleted = true WHERE id = ?")

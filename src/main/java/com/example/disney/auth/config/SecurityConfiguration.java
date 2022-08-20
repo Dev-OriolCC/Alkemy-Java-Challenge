@@ -53,8 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
     protected void configure(HttpSecurity http) throws Exception {
         //config to permit all the requests
         // Array for routes
-        String[] publicRoutes = {"/auth/login", "/auth/register", "/characters", "/characters/{id}",
-                "/movies", "/movies/{id}"};
+        String[] publicRoutes = {"/auth/login", "/auth/register"};
 
         http.csrf()
                 .disable()

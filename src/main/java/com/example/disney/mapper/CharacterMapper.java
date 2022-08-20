@@ -3,6 +3,7 @@ package com.example.disney.mapper;
 import com.example.disney.dto.request.CharacterRequestDto;
 import com.example.disney.dto.response.CharacterBasicResponseDto;
 import com.example.disney.dto.response.CharacterResponseDto;
+import com.example.disney.dto.response.MovieResponseDto;
 import com.example.disney.entity.Character;
 import com.example.disney.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class CharacterMapper {
     @Autowired CharacterMapper characterMapper;
 
     // Entity -> DTO
-    public static CharacterResponseDto characterToCharacterResponseDto(Character character) {
+    public static CharacterResponseDto characterToCharacterResponseDto(Character character, boolean showMovies) {
         CharacterResponseDto characterResponseDto = new CharacterResponseDto();
         characterResponseDto.setId(character.getId()); // maybe might fail
         characterResponseDto.setImage(character.getImage());
@@ -27,29 +28,33 @@ public class CharacterMapper {
         characterResponseDto.setStory(character.getStory());
         characterResponseDto.setDeleted(character.isDeleted()); //new
         //
-        characterResponseDto.setMovies(character.getMovies());
+        if(showMovies) {
+            List<MovieResponseDto> movieResponseDtos = MovieMapper.movieToMovieResponseDtos(character.getMovies(), false);
+            characterResponseDto.setMovies(movieResponseDtos);
+        }
         return characterResponseDto;
     }
     // List<Entity> -> List<DTO>
-    public static List<CharacterResponseDto> characterToCharacterResponseDtos(List<Character> characters) {
+    public static List<CharacterResponseDto> characterToCharacterResponseDtos(List<Character> characters, boolean showMovies) {
         List<CharacterResponseDto> characterResponseDtos = new ArrayList<>();
         for (Character character: characters) {
-            characterResponseDtos.add(characterToCharacterResponseDto(character));
+            characterResponseDtos.add(characterToCharacterResponseDto(character, showMovies));
         }
         return characterResponseDtos;
     }
 
     // DTO -> Entity
-    public static Character characterRequestDtoToCharacter(CharacterRequestDto characterRequestDto){//, boolean showMovies) {
+    public static Character characterRequestDtoToCharacter(CharacterRequestDto characterRequestDto, boolean showMovies) {
         Character character = new Character();
         character.setImage(characterRequestDto.getImage());
         character.setName(characterRequestDto.getName());
         character.setAge(characterRequestDto.getAge());
         character.setWeight(characterRequestDto.getWeight());
         character.setStory(characterRequestDto.getStory());
-//        if (showMovies) {
-//            List<Movie> movies = MovieMapper.movieRequestDtoToMovies(characterRequestDto.getMovies());
-//        }
+        if (showMovies) {
+            List<Movie> movies = MovieMapper.movieRequestDtoToMovies(characterRequestDto.getMovies());
+            character.setMovies(movies);
+        }
         return character;
     }
 
@@ -57,7 +62,7 @@ public class CharacterMapper {
     public static List<Character> characterRequestDtoToCharacters(List<CharacterRequestDto> characterRequestDtos) {
         List<Character> characters = new ArrayList<>();
         for (CharacterRequestDto characterRequestDto: characterRequestDtos) {
-            characters.add(characterRequestDtoToCharacter(characterRequestDto));
+            characters.add(characterRequestDtoToCharacter(characterRequestDto, false));
         }
         return characters;
     }

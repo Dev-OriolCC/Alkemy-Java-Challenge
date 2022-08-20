@@ -34,22 +34,22 @@ public class CharacterServiceImpl implements CharacterService {
         if (!character.isPresent()) { // Otra manera
             throw new ParamNotFound("ERROR: Invalid character ID");
         }
-        CharacterResponseDto characterResponseDto  = CharacterMapper.characterToCharacterResponseDto(character.get());
+        CharacterResponseDto characterResponseDto  = CharacterMapper.characterToCharacterResponseDto(character.get(), true);
         return characterResponseDto;
     }
 
     @Override
     public CharacterResponseDto createCharacter(CharacterRequestDto characterRequestDto) {
-        Character character = CharacterMapper.characterRequestDtoToCharacter(characterRequestDto);
+        Character character = CharacterMapper.characterRequestDtoToCharacter(characterRequestDto, false);
         Character characterSaved = characterRepository.save(character);
-        CharacterResponseDto characterResponseDto = CharacterMapper.characterToCharacterResponseDto(characterSaved);
+        CharacterResponseDto characterResponseDto = CharacterMapper.characterToCharacterResponseDto(characterSaved, false);
         return characterResponseDto;
 
     }
 
     @Override
     public Character createCharacterForMovie(CharacterRequestDto characterRequestDto) {
-        Character character = CharacterMapper.characterRequestDtoToCharacter(characterRequestDto);
+        Character character = CharacterMapper.characterRequestDtoToCharacter(characterRequestDto, false);
         Character characterSaved = characterRepository.save(character);
         return characterSaved;
     }
@@ -62,7 +62,7 @@ public class CharacterServiceImpl implements CharacterService {
         }
         CharacterMapper.characterRefresh(characterOptional.get(), characterRequestDto);
         Character character = characterRepository.save(characterOptional.get());
-        CharacterResponseDto characterResponseDto = CharacterMapper.characterToCharacterResponseDto(character);
+        CharacterResponseDto characterResponseDto = CharacterMapper.characterToCharacterResponseDto(character, false);
         return characterResponseDto;
     }
 
@@ -73,7 +73,7 @@ public class CharacterServiceImpl implements CharacterService {
             throw new ParamNotFound("ERROR: Invalid character ID");
         }
         characterRepository.delete(character.get());
-        CharacterResponseDto characterResponseDto = CharacterMapper.characterToCharacterResponseDto(character.get());
+        CharacterResponseDto characterResponseDto = CharacterMapper.characterToCharacterResponseDto(character.get(), false);
         return characterResponseDto;
     }
 

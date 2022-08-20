@@ -44,14 +44,6 @@ public class CharacterController {
         return ResponseEntity.ok().body(characters);
     }
 
-    // /**
-    // * @Return Response Character Basic Entity (name and image)
-    // */
-//    @GetMapping("/all")
-//    public ResponseEntity<List<CharacterBasicResponseDto>> getAll() {
-//        List<CharacterBasicResponseDto> characterBasicResponseDtos = characterService.getAllBasic();
-//        return ResponseEntity.ok().body(characterBasicResponseDtos);
-//    }
 
     // /**
     // * @Return Response Character Entity with Movies

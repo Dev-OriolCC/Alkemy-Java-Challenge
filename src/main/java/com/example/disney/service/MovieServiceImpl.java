@@ -33,7 +33,7 @@ public class MovieServiceImpl implements MovieService {
         if (!movie.isPresent()) {
             throw new ParamNotFound("ERROR: Invalid movie ID");
         }
-        MovieResponseDto movieResponseDto = MovieMapper.movieToMovieResponseDto(movie.get());
+        MovieResponseDto movieResponseDto = MovieMapper.movieToMovieResponseDto(movie.get(), true);
         return movieResponseDto;
     }
 
@@ -56,9 +56,9 @@ public class MovieServiceImpl implements MovieService {
     public MovieResponseDto createMovie(MovieRequestDto movieRequestDto) {
         // Genre?? Not applies for this challenge I guess
 
-        Movie movie = MovieMapper.movieRequestDtoToMovie(movieRequestDto);
+        Movie movie = MovieMapper.movieRequestDtoToMovie(movieRequestDto, true);
         Movie movieSaved = movieRepository.save(movie);
-        MovieResponseDto movieResponseDto = MovieMapper.movieToMovieResponseDto(movieSaved);
+        MovieResponseDto movieResponseDto = MovieMapper.movieToMovieResponseDto(movieSaved, true);
         return movieResponseDto;
     }
 
@@ -70,7 +70,7 @@ public class MovieServiceImpl implements MovieService {
         }
         MovieMapper.movieRefresh(movieOptional.get(), movieRequestDto);
         Movie movie = movieRepository.save(movieOptional.get());
-        MovieResponseDto movieResponseDto = MovieMapper.movieToMovieResponseDto(movie);
+        MovieResponseDto movieResponseDto = MovieMapper.movieToMovieResponseDto(movie, false);
         return movieResponseDto;
     }
 
@@ -81,7 +81,7 @@ public class MovieServiceImpl implements MovieService {
             throw new ParamNotFound("ERROR: Invalid movie ID");
         }
         movieRepository.delete(movie.get());
-        MovieResponseDto movieResponseDto = MovieMapper.movieToMovieResponseDto(movie.get());
+        MovieResponseDto movieResponseDto = MovieMapper.movieToMovieResponseDto(movie.get(), false);
         return movieResponseDto;
     }
 

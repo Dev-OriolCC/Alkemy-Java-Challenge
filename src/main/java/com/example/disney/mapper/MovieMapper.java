@@ -25,7 +25,7 @@ public class MovieMapper {
 
 
     // Entity -> DTO
-    public static MovieResponseDto movieToMovieResponseDto(Movie movie) {
+    public static MovieResponseDto movieToMovieResponseDto(Movie movie, boolean showCharacters) {
         MovieResponseDto movieResponseDto = new MovieResponseDto();
         movieResponseDto.setId(movie.getId());
         movieResponseDto.setImage(movie.getImage());
@@ -34,28 +34,34 @@ public class MovieMapper {
         movieResponseDto.setDate_created(movie.getDate_created().toString()); // todo Added toString()
         movieResponseDto.setDeleted(movie.isDeleted());
         //
-        movieResponseDto.setCharacters(movie.getCharacters());
+        if (showCharacters) {
+            List<CharacterResponseDto> characterResponseDtos = CharacterMapper.characterToCharacterResponseDtos(movie.getCharacters(), false);
+            movieResponseDto.setCharacters(characterResponseDtos);
+        }
         return movieResponseDto;
     }
     // List<Entity> -> List<DTO>
-    public static List<MovieResponseDto> movieToMovieResponseDtos(List<Movie> movies) {
+    public static List<MovieResponseDto> movieToMovieResponseDtos(List<Movie> movies, boolean showCharacters) {
         List<MovieResponseDto> movieResponseDtos = new ArrayList<>();
         for (Movie movie: movies) {
-            movieResponseDtos.add(movieToMovieResponseDto(movie));
+            movieResponseDtos.add(movieToMovieResponseDto(movie, showCharacters));
         }
         return movieResponseDtos;
     }
 
     // DTO -> Entity
-    public static Movie movieRequestDtoToMovie(MovieRequestDto movieRequestDto) {
+    public static Movie movieRequestDtoToMovie(MovieRequestDto movieRequestDto, boolean showCharacters) {
         Movie movie = new Movie();
         movie.setImage(movieRequestDto.getImage());
         movie.setTitle(movieRequestDto.getTitle());
         movie.setRating(movieRequestDto.getRating());
         movie.setDate_created(LocalDate.parse(movieRequestDto.getDate_created(), formatter));
         //
-        List<Character> characters = CharacterMapper.characterRequestDtoToCharacters(movieRequestDto.getCharacters());
-        movie.setCharacters(characters);
+        if(showCharacters) {
+            List<Character> characters = CharacterMapper.characterRequestDtoToCharacters(movieRequestDto.getCharacters());
+            movie.setCharacters(characters);
+        }
+
         return movie;
     }
 
@@ -63,7 +69,7 @@ public class MovieMapper {
     public static List<Movie> movieRequestDtoToMovies (List<MovieRequestDto> movieRequestDtos) {
         List<Movie> movies = new ArrayList<>();
         for (MovieRequestDto movieRequestDto: movieRequestDtos) {
-            movies.add(movieRequestDtoToMovie(movieRequestDto));
+            movies.add(movieRequestDtoToMovie(movieRequestDto, false));
         }
         return movies;
     }

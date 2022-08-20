@@ -49,7 +49,6 @@ public class Movie {
         joinColumns = @JoinColumn(name = "movie_id"),
         inverseJoinColumns = @JoinColumn(name = "character_id")
     )
-    @JsonIgnore // todo Quick fix Hibernate infinite loop error
     private List<Character> characters = new ArrayList<>();
 
     // Genre Relation *--1
